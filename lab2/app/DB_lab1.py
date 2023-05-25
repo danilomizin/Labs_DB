@@ -9,24 +9,6 @@ import math
 start_time = time.time()
 print('Start time:', time.strftime('%H:%M:%S'))
 
-# Завантажуємо та розпаковуємо файл з даними за 2019 рік
-url = 'https://zno.testportal.com.ua/yearstat/uploads/OpenDataZNO2019.7z'
-filename = 'OpenDataZNO2019.7z'
-req = requests.get(url)
-with open(filename, 'wb') as out:
-    out.write(req.content)
-with py7zr.SevenZipFile(filename, 'r') as archive:
-    archive.extractall()
-
-# Завантажуємо та розпаковуємо файл з даними за 2021 рік
-url = 'https://zno.testportal.com.ua/yearstat/uploads/OpenDataZNO2021.7z'
-filename = 'OpenDataZNO2021.7z'
-req = requests.get(url)
-with open(filename, 'wb') as out:
-    out.write(req.content)
-with py7zr.SevenZipFile(filename, 'r') as archive:
-    archive.extractall()
-
 # Підключення до бази даних
 def connect():
     for attempt in range(30):
@@ -303,7 +285,7 @@ def insert_data(df, conn, year):
 
 #conn = connect()
 #cur = conn.cursor()
-for attempt in range(30):
+for attempt in range(15):
     try:
         insert_data(data19, CONN, 2019)
         insert_data(data21, CONN, 2021)
